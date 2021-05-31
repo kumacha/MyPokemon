@@ -1,0 +1,47 @@
+<html>
+  <body>
+    <div id="app">
+      <input type="text" v-model="keyword" />
+      <table>
+        <tr v-for="pokemon in filteredPokemons" :key="pokemon.id">
+          <td v-text="pokemon.id"></td>
+          <td v-text="pokemon.name"></td>
+          <td v-text="pokemon.email"></td>
+        </tr>
+      </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        mounted() {
+          const JSONContent = require('../data/pokemon.json')
+          this.pokemons = JSONContent
+          console.log(pokemons)
+        },
+        data: {
+          keyword: '',
+          pokemons: [],
+        },
+        computed: {
+          filteredPokemons: function () {
+            var users = []
+
+            for (var i in this.pokemons) {
+              var pokemon = this.pokemons[i]
+
+              if (
+                pokemon.name.indexOf(this.keyword) !== -1 ||
+                pokemon.email.indexOf(this.keyword) !== -1
+              ) {
+                pokemons.push(pokemon)
+              }
+            }
+
+            return pokemons
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
