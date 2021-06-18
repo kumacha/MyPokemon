@@ -128,4 +128,7 @@ element.style {
     display: none;
   }
 }
+.v-card {
+  min-width: 130px;
+}
 </style>
