@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 <template>
   <v-container>
     <v-row>
@@ -55,6 +56,7 @@ export default {
         this.pokemons = response.data
       })
       .catch((err) => {
+        // eslint-disable-next-line no-console
         console.log('エラー:' + err)
       })
   },

@@ -1,16 +1,19 @@
 <template>
   <v-container>
     <v-row>
-      <v-form v-model="valid" @keyup.enter="filteredPokemons()"
+      <!-- <v-form v-model="valid" @submit.prevent
         ><v-text-field
-          v-model="keyword"
-          type="text"
-          :counter="10"
-          label="Pokemon Name"
-          required
+          v-model="id"
+          label="タイプ"
+          @keydown.enter="toType()"
         ></v-text-field>
       </v-form>
-      <v-btn @click="filteredPokemons()">検索</v-btn>
+      <v-btn>検索</v-btn> -->
+    </v-row>
+    <v-row>
+      <p>{{ id }}タイプの</p>
+      <p v-if="filteredPokemons.length == 0">検索結果は0件でした。</p>
+      <p v-else>検索結果は{{ filteredPokemons.length }}件ありました。</p>
     </v-row>
     <v-row>
       <v-col
@@ -44,7 +47,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      type: true,
+      id: this.$route.params.id,
+      type: this.keyword,
       valid: true,
       keyword: '',
       pokemons: [],
@@ -55,8 +59,7 @@ export default {
       const pokemons = []
       for (const i in this.pokemons) {
         const pokemon = this.pokemons[i]
-
-        if (pokemon.name.includes(this.keyword)) {
+        if (pokemon.type.includes(this.id)) {
           pokemons.push(pokemon)
         }
       }
@@ -65,17 +68,20 @@ export default {
   },
   mounted() {
     axios
-      .get('pokemon.json')
+      .get('../pokemon.json')
       .then((response) => {
         this.pokemons = response.data
       })
       .catch((err) => {
-        console.log('エラー:' + err)
+        alert('エラー:' + err)
       })
   },
   methods: {
     toPokemon() {
       this.$router.push(`/pokemons/${this.pokemon.id}`)
+    },
+    toType() {
+      this.$router.push(`/types/${this.keyword}`)
     },
   },
 }

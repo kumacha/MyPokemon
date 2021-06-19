@@ -55,8 +55,8 @@ export default {
     axios
       .get('../pokemon.json')
       .then((response) => {
-        console.log(response.data)
         const n = this.$route.params.id - 1
+        // eslint-disable-next-line no-console
         console.log(n)
         // 図鑑番号操作
         if (response.data[n].id < 10) {

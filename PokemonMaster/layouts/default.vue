@@ -54,18 +54,18 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'ALL',
+          title: 'TOP',
           to: '/',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'BAG',
-          to: '/bag',
+          title: 'search',
+          to: '/search',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'CAP',
-          to: '/cap',
+          title: 'type',
+          to: '/type',
         },
         {
           icon: 'mdi-chart-bubble',
