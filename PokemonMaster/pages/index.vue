@@ -1,18 +1,18 @@
 <template>
   <v-container>
     <v-row>
-      <v-form v-model="valid"
+      <v-form v-model="valid" @submit.prevent
         ><v-text-field
           v-model="keyword"
-          :counter="10"
           label="Pokemon Name"
-          required
+          @keydown.enter="toSearch()"
         ></v-text-field>
       </v-form>
+      <v-btn :to="{ name: 'keyword', query: { name: keyword } }">検索</v-btn>
     </v-row>
     <v-row>
       <v-col
-        v-for="pokemon in filteredPokemons"
+        v-for="pokemon in pokemons"
         :key="pokemon.id"
         xs="6"
         sm="3"
@@ -48,24 +48,10 @@ export default {
       pokemons: [],
     }
   },
-  computed: {
-    filteredPokemons() {
-      const pokemons = []
-      for (const i in this.pokemons) {
-        const pokemon = this.pokemons[i]
-
-        if (pokemon.name.includes(this.keyword)) {
-          pokemons.push(pokemon)
-        }
-      }
-      return pokemons
-    },
-  },
   mounted() {
     axios
       .get('pokemon.json')
       .then((response) => {
-        console.log(response.data)
         this.pokemons = response.data
       })
       .catch((err) => {
@@ -75,6 +61,9 @@ export default {
   methods: {
     toPokemon() {
       this.$router.push(`/pokemons/${this.pokemon.id}`)
+    },
+    toSearch() {
+      this.$router.push({ name: 'keyword', query: { name: this.keyword } })
     },
   },
 }
