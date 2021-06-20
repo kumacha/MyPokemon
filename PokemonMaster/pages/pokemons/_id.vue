@@ -1,26 +1,26 @@
 <template>
   <v-container>
     <v-row>
-      <v-img :src="pokemons.srcNormal"></v-img>
+      <v-img :src="pokemon.srcNormal"></v-img>
     </v-row>
     <v-row
       ><v-col
-        ><p>No.{{ pokemons.id }}</p></v-col
+        ><p>No.{{ pokemon.id }}</p></v-col
       >
       <v-col
-        ><p>名前：{{ pokemons.name }}</p></v-col
+        ><p>名前：{{ pokemon.name }}</p></v-col
       ></v-row
     >
     <v-row
       ><v-col
-        ><p>
-          タイプ：{{ pokemons.typeFirst }} {{ pokemons.typeSecond }}
-        </p></v-col
+        ><p>タイプ：{{ pokemon.type[0] }} {{ pokemon.type[1] }}</p></v-col
       ></v-row
     >
     <v-row>
       <v-col
-        ><v-btn style="color: #ff0080" outlined>お気に入りに追加</v-btn></v-col
+        ><v-btn style="color: #ff0080" outlined @click="addFavorite(pokemon)"
+          >お気に入りに追加</v-btn
+        ></v-col
       >
       <v-col
         ><v-btn style="color: #2d8c3c" outlined>手持ちに加える</v-btn></v-col
@@ -36,15 +36,15 @@
 
 <script>
 import axios from 'axios'
+import firebase from '~/plugins/firebase'
 export default {
   data() {
     return {
       id: this.$route.params.id,
-      pokemons: {
+      pokemon: {
         id: '',
         name: '',
-        typeFirst: '',
-        typeSecond: '',
+        type: [],
         srcNormal: '',
         srcSmall: '',
         srcIcon: '',
@@ -66,13 +66,12 @@ export default {
         }
         console.log(n)
         // JSONをオブジェクトに置き換えるよ
-        this.pokemons.id = response.data[n].id
-        this.pokemons.name = response.data[n].name
-        this.pokemons.typeFirst = response.data[n].type[0]
-        this.pokemons.typeSecond = response.data[n].type[1]
-        this.pokemons.srcNormal = response.data[n].src.normal
-        this.pokemons.srcSmall = response.data[n].src.small
-        this.pokemons.srcIcon = response.data[n].src.icon
+        this.pokemon.id = response.data[n].id
+        this.pokemon.name = response.data[n].name
+        this.pokemon.type = response.data[n].type
+        this.pokemon.srcNormal = response.data[n].src.normal
+        this.pokemon.srcSmall = response.data[n].src.small
+        this.pokemon.srcIcon = response.data[n].src.icon
       })
       .catch((err) => {
         console.log('エラー:' + err)
@@ -81,6 +80,33 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    addFavorite(pokemon) {
+      const db = firebase.firestore()
+      const dbFavorites = db.collection('favorites')
+      const timestamp = firebase.firestore.Timestamp.now()
+      dbFavorites.get().then((snap) => {
+        const size = snap.size
+        console.log(size)
+      })
+      dbFavorites
+        .add({
+          id: pokemon.id,
+          name: pokemon.name,
+          type: pokemon.type,
+          srcIcon: pokemon.srcIcon,
+          srcNormal: pokemon.srcNormal,
+          srcSmall: pokemon.srcSmall,
+          createdAt: timestamp,
+          updatedAt: timestamp,
+        })
+        .then((ref) => {
+          console.log('add ID :', ref.id)
+        })
+        .catch((err) => {
+          alert(err)
+        })
+      alert(pokemon.name + 'をお気に入りに入れました。')
     },
   },
   // mounted() {

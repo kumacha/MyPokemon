@@ -60,9 +60,6 @@ export default {
         const pokemon = this.pokemons[i]
         if (pokemon.name.includes(this.$route.query.name)) {
           pokemons.push(pokemon)
-          if (pokemons.length === 0) {
-            console.log('検索結果0ですよ')
-          }
         }
       }
       return pokemons
@@ -75,7 +72,7 @@ export default {
         this.pokemons = response.data
       })
       .catch((err) => {
-        console.log('エラー:' + err)
+        alert('エラー:' + err)
       })
   },
   methods: {

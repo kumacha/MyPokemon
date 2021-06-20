@@ -93,7 +93,7 @@ export default {
         this.pokemons = response.data
       })
       .catch((err) => {
-        console.log('エラー:' + err)
+        alert('エラー:' + err)
       })
   },
   methods: {
