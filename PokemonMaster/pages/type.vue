@@ -48,7 +48,6 @@ export default {
   computed: {
     filteredPokemons() {
       const pokemons = []
-      console.log(this.type)
       for (const i in this.pokemons) {
         const pokemon = this.pokemons[i]
         if (pokemon.type.includes(this.type)) {
@@ -65,7 +64,7 @@ export default {
         this.pokemons = response.data
       })
       .catch((err) => {
-        console.log('エラー:' + err)
+        alert('エラー:' + err)
       })
   },
   methods: {
@@ -86,7 +85,6 @@ export default {
           }
         }
       }
-      console.log(pokemons)
       return pokemons
     },
   },

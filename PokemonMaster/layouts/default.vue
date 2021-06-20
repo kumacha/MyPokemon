@@ -31,10 +31,12 @@
       }}</v-toolbar-title>
       <v-spacer />
 
-      <v-btn class="favo" style="color: #ff0080" outlined
+      <v-btn to="/favorite" class="favo" style="color: #ff0080" outlined
+        >お気に入りのポケモン</v-btn
+      >
+      <v-btn to="/party" class="cart" style="color: #2d8c3c" outlined
         >手持ちのポケモン</v-btn
       >
-      <v-btn class="cart" style="color: #2d8c3c" outlined>カート</v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -54,17 +56,17 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'TOP',
+          title: 'ポケモン図鑑',
           to: '/',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'search',
+          title: 'ポケモンを探す',
           to: '/search',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'type',
+          title: 'タイプで探す',
           to: '/type',
         },
         {
@@ -96,7 +98,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Pokedex',
+      title: 'ポケモン図鑑',
     }
   },
   methods: {

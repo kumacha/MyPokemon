@@ -54,7 +54,6 @@ export default {
     axios
       .get('pokemon.json')
       .then((response) => {
-        console.log(response.data)
         // 図鑑番号操作
         if (response.data[0].id < 10) {
           response.data[0].id = '00' + response.data[0].id
@@ -71,7 +70,7 @@ export default {
         this.pokemons.srcIcon = response.data[0].src.icon
       })
       .catch((err) => {
-        console.log('エラー:' + err)
+        alert('エラー:' + err)
       })
   },
   methods: {
