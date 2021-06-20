@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 <template>
   <v-container>
-    <p>お気に入りポケモンのページ</p>
-    <v-row>
+    <v-row justify="center">
       <v-col
         v-for="pokemon in pokemons"
         :key="pokemon.id"
@@ -13,9 +12,9 @@
       >
         <v-card
           min-width="140px"
-          max-width="150px"
+          max-width="165px"
           :to="{ name: 'pokemons-id', params: { id: pokemon.id } }"
-          ><v-img :src="pokemon.srcNormal"></v-img>
+          ><v-img :src="pokemon.src.normal"></v-img>
           <v-card-title>{{ pokemon.name }}</v-card-title>
           <v-card-subtitle v-if="pokemon.type.length == 1">{{
             pokemon.type[0]
@@ -39,38 +38,29 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import firebase from '~/plugins/firebase'
 export default {
+  components: true,
   data() {
     return {
+      type: true,
+      valid: true,
       keyword: '',
-      favorites: [],
       pokemons: [],
+      favorites: [],
     }
   },
   mounted() {
-    const that = this
-    const db = firebase.firestore()
-    const dbFavorites = db.collection('favorites').orderBy('createdAt', 'desc')
-    dbFavorites.get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const favorites = doc.data()
-        that.pokemons = [
-          ...that.pokemons,
-          {
-            id: favorites.id,
-            name: favorites.name,
-            type: favorites.type,
-            srcIcon: favorites.srcIcon,
-            srcNormal: favorites.srcNormal,
-            srcSmall: favorites.srcSmall,
-            createdAt: favorites.createdAt,
-            updatedAt: favorites.updatedAt,
-          },
-        ]
+    axios
+      .get('pokemon.json')
+      .then((response) => {
+        this.pokemons = response.data
       })
-    })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('エラー:' + err)
+      })
   },
   methods: {
     toPokemon() {
@@ -92,9 +82,9 @@ export default {
           id: pokemon.id,
           name: pokemon.name,
           type: pokemon.type,
-          srcIcon: pokemon.srcIcon,
-          srcNormal: pokemon.srcNormal,
-          srcSmall: pokemon.srcSmall,
+          srcIcon: pokemon.src.icon,
+          srcNormal: pokemon.src.normal,
+          srcSmall: pokemon.src.small,
           createdAt: timestamp,
           updatedAt: timestamp,
         })
