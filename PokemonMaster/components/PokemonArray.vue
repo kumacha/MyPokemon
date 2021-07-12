@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 <template>
   <v-container>
-    <v-row justify="center">
+    <v-row>
       <v-col
         v-for="pokemon in pokemons"
         :key="pokemon.id"
@@ -12,9 +12,13 @@
       >
         <v-card
           min-width="140px"
-          max-width="165px"
+          max-width="150px"
+          min-height="288px"
+          max-height="288px"
+          style="margin: 0"
           :to="{ name: 'pokemons-id', params: { id: pokemon.id } }"
-          ><v-img :src="pokemon.src.normal"></v-img>
+        >
+          <v-img :src="pokemon.src.normal"></v-img>
           <v-card-title>{{ pokemon.name }}</v-card-title>
           <v-card-subtitle v-if="pokemon.type.length == 1">{{
             pokemon.type[0]
@@ -41,7 +45,6 @@
 import axios from 'axios'
 import firebase from '~/plugins/firebase'
 export default {
-  components: true,
   data() {
     return {
       type: true,
@@ -53,7 +56,7 @@ export default {
   },
   mounted() {
     axios
-      .get('pokemon.json')
+      .get('../pokemon.json')
       .then((response) => {
         this.pokemons = response.data
       })
@@ -130,3 +133,11 @@ export default {
   },
 }
 </script>
+<style>
+.v-card__title {
+  font-size: 18px;
+}
+.v-card__subtitle {
+  font-size: 12px;
+}
+</style>

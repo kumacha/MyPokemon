@@ -118,9 +118,9 @@ export default {
               id: pokemon.id,
               name: pokemon.name,
               type: pokemon.type,
-              srcIcon: pokemon.src.icon,
-              srcNormal: pokemon.src.normal,
-              srcSmall: pokemon.src.small,
+              srcIcon: pokemon.srcIcon,
+              srcNormal: pokemon.srcNormal,
+              srcSmall: pokemon.srcSmall,
               createdAt: timestamp,
               updatedAt: timestamp,
             })

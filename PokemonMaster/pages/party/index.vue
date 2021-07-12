@@ -26,7 +26,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn icon @click.prevent @click="addFavorite(pokemon)">
-              <v-icon>mdi-heart</v-icon>
+              <v-icon>mdi-heart-outline</v-icon>
             </v-btn>
             <v-btn icon @click.prevent @click="addParty(pokemon)"
               ><v-icon>mdi-briefcase-plus-outline</v-icon></v-btn

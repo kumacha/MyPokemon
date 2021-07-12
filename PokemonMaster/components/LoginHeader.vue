@@ -19,14 +19,16 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title @click="GoHome()" v-text="item.title" />
+            <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title class="fulltitle">{{ title }}</v-toolbar-title>
+      <v-toolbar-title class="fulltitle" @click="GoHome()">{{
+        title
+      }}</v-toolbar-title>
       <v-spacer />
       <v-btn to="/favorite" class="favo-btn" icon @click.prevent>
         <v-icon>mdi-heart-outline</v-icon>
@@ -41,11 +43,6 @@
         >手持ちのポケモン</v-btn
       >
     </v-app-bar>
-    <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-main>
   </v-app>
 </template>
 
@@ -95,18 +92,6 @@ export default {
     }
   },
   methods: {
-    signOut() {
-      this.$store
-        .dispatch('signOut')
-        .then(() => {
-          this.$router.push({
-            name: 'login',
-          })
-        })
-        .catch((err) => {
-          alert(err.message)
-        })
-    },
     GoHome() {
       this.$router.push('/')
     },
